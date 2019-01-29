@@ -5,10 +5,10 @@ FROM jupyter/base-notebook:latest
 LABEL maintainer="Science Platforms <cbrasseur@stsci.edu>"
 
 # Install Astropy channel
-#RUN conda config --add channels astropy
+RUN conda config --add channels astropy
 
 # Install Astroconda channel
-#RUN conda config --add channels http://ssb.stsci.edu/astroconda
+RUN conda config --add channels http://ssb.stsci.edu/astroconda
 
 # Create 'tess_workshop' environment configured with required packages
 RUN conda create --name tess_workshop python=3.6 astropy mkl-service seaborn plotly scikit-learn pymc3 boto3 emcee matplotlib bokeh -y
@@ -37,7 +37,9 @@ RUN apt-get install ssh -y
 RUN apt-get install htop -y
 RUN apt-get install sysstat -y
 RUN apt-get install g++ -y
+#RUN apt-get install curl -y
 
+RUN apt-get install libcurl4-openssl-dev -y
 RUN apt-get install libxml2 -y
 RUN apt-get install libxslt1.1 -y
 RUN apt-get install libxml2-dev -y
@@ -59,7 +61,8 @@ RUN pip install exoplanet
 RUN pip install tele-scope
 RUN pip install celerite
 RUN pip install astrocut
-#RUN pip install starry
-#RUN pip install eleanor
+RUN pip install eleanor
+#RUN pip install starry -v
+
 
 COPY VERSION /opt
