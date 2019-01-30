@@ -1,11 +1,12 @@
 # Copyright (c) Association of Universities for Research in Astronomy
 # Distributed under the terms of the Modified BSD License.
-FROM jupyter/base-notebook:latest
+#FROM jupyter/base-notebook:latest
+FROM continuumio/miniconda3:latest
 
 LABEL maintainer="Science Platforms <cbrasseur@stsci.edu>"
 
 # Installing all the unix stuff
-USER root
+#USER root
 RUN apt-get update -y
 RUN apt-get install gcc -y
 RUN apt-get install vim -y
@@ -29,7 +30,7 @@ RUN easy_install lxml
 
 RUN apt-get install build-essential -y
 
-USER jovyan
+#USER jovyan
 
 
 # Add Astropy channel
@@ -42,7 +43,7 @@ RUN conda config --add channels http://ssb.stsci.edu/astroconda
 RUN conda config --add channels conda-forge 
 
 # Create 'tess_workshop' environment configured with required packages
-RUN conda create --name tess_workshop python=3.6 astropy mkl-service seaborn plotly scikit-learn pymc3 boto3 emcee matplotlib bokeh -y
+RUN conda create --name tess_workshop python=3.6 astropy mkl-service seaborn plotly scikit-learn pymc3 boto3 emcee matplotlib bokeh jupyter -y
 
 # Activate the tess_workshop environment
 RUN echo "source activate tess_workshop" > ~/.bashrc
