@@ -1,12 +1,12 @@
 # Copyright (c) Association of Universities for Research in Astronomy
 # Distributed under the terms of the Modified BSD License.
-#FROM jupyter/base-notebook:latest
-FROM continuumio/miniconda3:latest
+FROM jupyter/base-notebook:latest
+#FROM continuumio/miniconda3:latest
 
 LABEL maintainer="Science Platforms <cbrasseur@stsci.edu>"
 
 # Installing all the unix stuff
-#USER root
+USER root
 RUN apt-get update -y
 RUN apt-get install gcc -y
 RUN apt-get install vim -y
@@ -66,8 +66,10 @@ RUN pip install celerite
 RUN pip install astrocut
 RUN pip install eleanor
 
-RUN conda install jupyterhub -y
-RUN conda install jupyterlab -y
+#RUN conda install jupyterhub -y
+#RUN conda install jupyterlab -y
+
+USER jovyan
 
 #ARG NB_USER="jovyan"
 #ARG NB_UID="1000"
