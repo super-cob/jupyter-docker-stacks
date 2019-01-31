@@ -66,4 +66,12 @@ RUN pip install celerite
 RUN pip install astrocut
 RUN pip install eleanor
 
+RUN conda install jupyterhub -y
+RUN conda install jupyterlab -y
+
+#ARG NB_USER="jovyan"
+#ARG NB_UID="1000"
+#ARG NB_GID="100"
+
+
 COPY VERSION /opt
