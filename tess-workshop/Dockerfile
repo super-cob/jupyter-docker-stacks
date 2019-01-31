@@ -43,20 +43,20 @@ RUN conda config --add channels http://ssb.stsci.edu/astroconda
 RUN conda config --add channels conda-forge 
 
 # Create 'tess_workshop' environment configured with required packages
-RUN conda create --name tess_workshop python=3.6 astropy mkl-service seaborn plotly scikit-learn pymc3 boto3 emcee matplotlib bokeh jupyter -y
+RUN conda create --name tess_workshop python=3.6 astropy mkl-service seaborn plotly scikit-learn pymc3 boto3 emcee matplotlib bokeh jupyter starry ipywidgets ginga -y
 
 # Activate the tess_workshop environment
 RUN echo "source activate tess_workshop" > ~/.bashrc
 ENV PATH /opt/conda/envs/tess_workshop/bin:$PATH
 
 # Install ginga, ipywidgets and ipyevents for interactive plots
-RUN conda install ginga -y
-RUN conda install ipywidgets -y
+#RUN conda install ginga -y
+#RUN conda install ipywidgets -y
 RUN pip install ipyevents
 RUN jupyter nbextension enable --py --sys-prefix ipyevents
 
 # Install starry
-RUN conda install starry -y
+#RUN conda install starry -y
 
 # pip packages
 RUN pip install --pre astroquery --upgrade
@@ -66,14 +66,7 @@ RUN pip install celerite
 RUN pip install astrocut
 RUN pip install eleanor
 
-#RUN conda install jupyterhub -y
-#RUN conda install jupyterlab -y
 
 USER jovyan
-
-#ARG NB_USER="jovyan"
-#ARG NB_UID="1000"
-#ARG NB_GID="100"
-
 
 COPY VERSION /opt
