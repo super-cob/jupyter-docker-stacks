@@ -41,25 +41,36 @@ RUN conda config --add channels http://ssb.stsci.edu/astroconda
 RUN conda config --add channels conda-forge 
 
 # Create 'tess_workshop' environment configured with required packages
-RUN conda create --name tess_workshop python=3.6 astropy mkl-service seaborn plotly scikit-learn pymc3 boto3 emcee matplotlib bokeh jupyter starry ipywidgets ginga -y
+#RUN conda create --name tess_workshop python=3.6 astropy mkl-service seaborn plotly scikit-learn pymc3 boto3 emcee matplotlib bokeh jupyter starry ipywidgets ginga -y
 
-# Activate the tess_workshop environment
-#RUN echo "source activate tess_workshop" > ~/.bashrc
-#ENV PATH /opt/conda/envs/tess_workshop/bin:$PATH
+Run conda install astropy -y
+RUN conda install --quiet --yes \
+    'astropy' \
+    'mkl-service' \
+    'seaborn' \
+    'plotly' \
+    'scikit-learn' \
+    'pymc3' \
+    'boto3' \
+    'emcee' \
+    'matplotlib' \
+    'bokeh' \
+    'jupyter' \
+    'starry' \
+    'ipywidgets' \
+    'ginga' 
 
 # pip packages
 RUN pip install ipyevents
 RUN jupyter nbextension enable --py --sys-prefix ipyevents
 RUN pip install --pre astroquery --upgrade
 RUN pip install exoplanet
-RUN pip install tele-scope
-RUN pip install celerite
 RUN pip install astrocut
 RUN pip install eleanor
 
-#RUN jupyter notebook --generate-config -y
-#COPY jupyter_notebook_config.py /etc/jupyter/ 
-
 USER jovyan
+
+RUN pip install tele-scope
+RUN pip install celerite
 
 COPY VERSION /opt
