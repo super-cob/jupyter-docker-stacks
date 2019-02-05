@@ -18,6 +18,7 @@ RUN apt-get install ssh -y
 RUN apt-get install htop -y
 RUN apt-get install sysstat -y
 RUN apt-get install g++ -y
+RUN apt-get install imagemagick -y
 
 RUN apt-get install libcurl4-openssl-dev -y
 RUN apt-get install libxml2 -y
@@ -56,7 +57,7 @@ RUN conda install --quiet --yes \
 RUN pip install ipyevents
 RUN jupyter nbextension enable --py --sys-prefix ipyevents
 RUN pip install --pre astroquery --upgrade
-RUN pip install exoplanet
+RUN pip install exoplanet 
 RUN pip install astrocut
 RUN pip install eleanor
 RUN pip install tele-scope
