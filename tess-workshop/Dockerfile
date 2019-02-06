@@ -51,16 +51,21 @@ RUN conda install --quiet --yes \
     'boto3' \
     'emcee' \
     'starry' \
-    'ginga' 
+    'ginga' \
+    'bokeh'
 
 # pip packages
 RUN pip install ipyevents
-RUN jupyter nbextension enable --py --sys-prefix ipyevents
 RUN pip install --pre astroquery --upgrade
 RUN pip install exoplanet 
 RUN pip install astrocut
 RUN pip install eleanor
 RUN pip install tele-scope
 RUN pip install celerite
+
+# JupyterLab extensions
+RUN jupyter nbextension enable --py --sys-prefix ipyevents
+RUN jupyter labextension install jupyterlab_bokeh
+
 
 COPY VERSION /opt
