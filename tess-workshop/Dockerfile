@@ -8,6 +8,9 @@ FROM jupyter/scipy-notebook:a238993ad594
 
 LABEL maintainer="Science Platforms <cbrasseur@stsci.edu>"
 
+# Environment Variables
+ENV MKL_THREADING_LAYER="GNU"
+
 # Installing all the unix stuff
 USER root
 RUN apt-get update -y
@@ -43,16 +46,17 @@ RUN conda config --add channels conda-forge
 
 
 # Install conda packages
-RUN conda install --quiet --yes \
-    'astropy' \
-    'mkl-service' \
-    'plotly' \
-    'pymc3' \
-    'boto3' \
-    'emcee' \
-    'starry' \
-    'ginga' \
-    'bokeh'
+RUN conda update -y conda
+RUN conda install -y numpy
+RUN conda install -y astropy
+RUN conda install -y mkl-service
+RUN conda install -y plotly
+RUN conda install -y pymc3
+RUN conda install -y boto3
+RUN conda install -y emcee
+RUN conda install -y starry
+RUN conda install -y ginga
+RUN conda install -y bokeh
 
 # pip packages
 RUN pip install ipyevents
