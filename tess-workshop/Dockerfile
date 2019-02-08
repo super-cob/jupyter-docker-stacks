@@ -78,6 +78,6 @@ RUN git clone https://github.com/spacetelescope/tessworkshop_tutorials.git
 RUN git clone https://github.com/spacetelescope/notebooks.git
 
 # README
-COPY platform_readme.txt README
+COPY platform_readme.txt /home/jovyan/README
 
 COPY VERSION /opt
