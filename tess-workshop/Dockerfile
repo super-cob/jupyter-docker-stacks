@@ -83,7 +83,7 @@ RUN chmod 777 /opt/notebooks
 USER jovyan
 
 RUN git clone https://github.com/spacetelescope/tessworkshop_tutorials.git /opt/tessworkshop_tutorials
-RUN git clone https://github.com/spacetelescope/notebooks.git /home/jovyan/notebooks
+RUN git clone https://github.com/spacetelescope/notebooks.git /opt/notebooks
 
 # README
 COPY platform_readme.txt /opt/README
