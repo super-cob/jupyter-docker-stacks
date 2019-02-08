@@ -72,5 +72,12 @@ RUN pip install celerite
 RUN jupyter nbextension enable --py --sys-prefix ipyevents
 RUN jupyter labextension install jupyterlab_bokeh
 
+# Git repos
+RUN cd /home/jovyan 
+RUN git clone https://github.com/spacetelescope/tessworkshop_tutorials.git
+RUN git clone https://github.com/spacetelescope/notebooks.git
+
+# README
+COPY platform_readme.txt README
 
 COPY VERSION /opt
