@@ -22,6 +22,7 @@ RUN apt-get install htop -y
 RUN apt-get install sysstat -y
 RUN apt-get install g++ -y
 RUN apt-get install imagemagick -y
+RUN apt-get install curl -y
 
 RUN apt-get install libcurl4-openssl-dev -y
 RUN apt-get install libxml2 -y
