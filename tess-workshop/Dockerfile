@@ -73,9 +73,9 @@ RUN jupyter nbextension enable --py --sys-prefix ipyevents
 RUN jupyter labextension install jupyterlab_bokeh
 
 # Git repos
-RUN cd /opt
-RUN git clone https://github.com/spacetelescope/tessworkshop_tutorials.git 
-RUN git clone https://github.com/spacetelescope/notebooks.git
+#RUN mkdir /opt/tessworkshop_tutorials
+RUN git clone https://github.com/spacetelescope/tessworkshop_tutorials.git /home/jovyan/tessworkshop_tutorials
+RUN git clone https://github.com/spacetelescope/notebooks.git /home/jovyan/notebooks
 
 # README
 COPY platform_readme.txt /opt/README
