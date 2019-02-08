@@ -13,7 +13,19 @@ This directory contains two git repos:
 - notebooks
   This the STScI's repo of curated Jupyter notebooks demonstrating various useful tasks related to our archive.
 
+
+Python 3.6 is installed as well as a suite of general analysis and visualization packages, in addition to the particular packages involved in the tutorials.
+
 For a complete list of python packages installed on this platform run the following command in the terminal: pip freeze
+
+Also on the platform:
+- g++ and gcc compilers
+- emacs and vim
+- curl and wget
+- imagemagick
+And a number of other standard unix libraries.
+
+
 
 Important links:
 - The workshop website: https://tessworkshop.science.stsci.edu/
