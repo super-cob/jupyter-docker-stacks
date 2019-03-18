@@ -61,7 +61,7 @@ RUN conda config --add channels conda-forge
 # Install conda packages
 RUN conda update -y conda
 RUN conda install -y numpy
-RUN conda install -y astropy
+RUN conda install -y astropy=2
 RUN conda install -y mkl-service
 RUN conda install -y plotly
 RUN conda install -y pymc3
