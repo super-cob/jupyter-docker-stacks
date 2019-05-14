@@ -24,7 +24,7 @@ docker build -t ${hub}/${repo}:latest -t ${hub}/${repo}:latest -t ${hub}/${repo}
 
 # make sure your local branch isn't stale
 git fetch
-$(git rev-parse HEAD) == $(git rev-parse @{u})
+[[ $(git rev-parse HEAD) == $(git rev-parse @{u}) ]]
 
 # patch++ and tag repo.
 temptag=`cat ./${folder}/VERSION`
