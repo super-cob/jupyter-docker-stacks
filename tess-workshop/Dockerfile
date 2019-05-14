@@ -69,6 +69,7 @@ RUN pip install tele-scope
 RUN pip install celerite
 RUN pip install corner
 RUN pip install bls.py
+RUN pip install k2flix
 
 # JupyterLab extensions
 RUN jupyter nbextension enable --py --sys-prefix ipyevents
