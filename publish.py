@@ -62,8 +62,8 @@ def main():
     login_command = subprocess.check_output(["aws", "ecr", "get-login", "--no-include-email", "--region", "us-east-1"])
     subprocess.check_call(login_command, shell=True)
 
-    # Build the docker image, adding tags for each level of the version
-    docker_command = ["docker", "build"]
+    # Build the docker image, adding tags for latest and each level of the version
+    docker_command = ["docker", "build", "-t", "latest"]
     for i in range(1, len(versions) + 1):
         tag = f"""{DOCKER_HUB_HOSTNAME}/{repo}:{".".join(versions[0:i])}"""
         docker_command.extend(["-t", tag])
