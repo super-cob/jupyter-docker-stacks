@@ -20,6 +20,13 @@ RUN apt-get update -y
 # Additional apt packages
 RUN apt-get install curl -y
 
+# Configure astroquery to use JWST A-string MAST server.  We can't
+# just copy an astroquery.cfg to the jovyan user's home directory
+# because that directory isn't mounted until the container is
+# launched by Kubernetes.
+RUN mkdir -p /usr/local/bin/start-notebook.d
+COPY create_astroquery_cfg.sh /usr/local/bin/start-notebook.d/
+
 USER jovyan
 
 # Install jwst 0.13.7 and dependencies
@@ -32,10 +39,6 @@ RUN pip install --upgrade --pre astroquery
 
 # Tornado 6.x isn't compatible with Jupyter Notebook:
 RUN pip uninstall -y tornado; pip install tornado==5.1.1
-
-# Configure astroquery to use JWST A-string MAST server
-RUN mkdir -p /home/jovyan/.astropy/config
-COPY --chown=jovyan:users astroquery.cfg /home/jovyan/.astropy/config/
 
 # README
 COPY platform_readme.txt /opt/README
