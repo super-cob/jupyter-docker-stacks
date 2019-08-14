@@ -8,9 +8,6 @@ import os
 import sys
 
 
-DOCKER_HUB_HOSTNAME = "793754315137.dkr.ecr.us-east-1.amazonaws.com"
-
-
 def parse_args():
     parser = ArgumentParser("publish.py", description="build, commit, tag (git and Docker) and push a Docker image")
     parser.add_argument("folder_path", help="directory containing, at minimum, Dockerfile and VERSION files")
@@ -62,10 +59,14 @@ def main():
     login_command = subprocess.check_output(["aws", "ecr", "get-login", "--no-include-email", "--region", "us-east-1"])
     subprocess.check_call(login_command, shell=True)
 
+    docker_hub_url = login_command.decode("utf-8").split(" ")[-1].strip()
+    assert docker_hub_url.startswith("https://")
+    docker_hub_hostname = docker_hub_url[len("https://"):]
+
     # Build the docker image, adding tags for latest and each level of the version
     docker_command = ["docker", "build", "-t", "latest"]
     for i in range(1, len(versions) + 1):
-        tag = f"""{DOCKER_HUB_HOSTNAME}/{repo}:{".".join(versions[0:i])}"""
+        tag = f"""{docker_hub_hostname}/{repo}:{".".join(versions[0:i])}"""
         docker_command.extend(["-t", tag])
     docker_command.append(str(folder_path))
     subprocess.check_call(docker_command)
@@ -85,7 +86,7 @@ def main():
     subprocess.check_call(["git", "push", "--tags"])
 
     # Push the new image to the Docker repository
-    subprocess.check_call(["docker", "push", f"{DOCKER_HUB_HOSTNAME}/{repo}"])
+    subprocess.check_call(["docker", "push", f"{docker_hub_hostname}/{repo}"])
 
 
 if __name__ == "__main__":
