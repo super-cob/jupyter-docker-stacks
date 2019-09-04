@@ -64,10 +64,13 @@ def main():
     docker_hub_hostname = docker_hub_url[len("https://"):]
 
     # Build the docker image, adding tags for latest and each level of the version
-    docker_command = ["docker", "build", "-t", "latest"]
-    for i in range(1, len(versions) + 1):
-        tag = f"""{docker_hub_hostname}/{repo}:{".".join(versions[0:i])}"""
-        docker_command.extend(["-t", tag])
+    docker_command = ["docker", "build"]
+    # Create tags for "latest" as well as each non-development level of the version.
+    # For example, if the version is v1.2.3.devel, we want tags for v1, v1.2, and v1.2.3
+    tags = ["latest"] + [".".join(versions[0:i]) for i in range(1, len(versions) + 1)]
+    for tag in tags:
+        full_tag = f"{docker_hub_hostname}/{repo}:{tag}"
+        docker_command.extend(["-t", full_tag])
     docker_command.append(str(folder_path))
     subprocess.check_call(docker_command)
 
