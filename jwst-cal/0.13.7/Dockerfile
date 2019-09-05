@@ -8,10 +8,21 @@ FROM jupyter/scipy-notebook:a238993ad594
 
 LABEL maintainer="Science Platforms <cbrasseur@stsci.edu>"
 
-# Environment Variables
+# Environment variables
 ENV MKL_THREADING_LAYER="GNU"
+
+# CRDS environment variables
 ENV CRDS_PATH=/home/jovyan/crds_cache
-ENV CRDS_SERVER_URL=https://jwst-crds.stsci.edu
+ENV CRDS_SERVER_URL=https://jwst-serverless.stsci.edu
+ENV CRDS_S3_ENABLED=1
+ENV CRDS_S3_RETURN_URI=0
+ENV CRDS_MAPPING_URI=s3://dmd-test-crds/mappings/jwst
+ENV CRDS_REFERENCE_URI=s3://dmd-test-crds/references/jwst
+ENV CRDS_CONFIG_URI=s3://dmd-test-crds/config/jwst
+ENV CRDS_USE_PICKLES=0
+ENV CRDS_DOWNLOAD_MODE=plugin
+ENV CRDS_DOWNLOAD_PLUGIN='crds_s3_get ${SOURCE_URL} ${OUTPUT_PATH} ${FILE_SIZE} ${FILE_SHA1SUM}'
+ENV CRDS_CONTEXT=jwst_0535.pmap
 
 # Keep Ubuntu secure
 USER root
@@ -36,6 +47,10 @@ RUN rm latest-linux
 
 # Additional pip packages
 RUN pip install --upgrade --pre astroquery
+RUN pip install --upgrade awscli
+
+# S3-enabled release of CRDS:
+RUN pip install --upgrade git+https://github.com/spacetelescope/crds.git@7.4.1#egg=crds[aws]
 
 # Tornado 6.x isn't compatible with Jupyter Notebook:
 RUN pip uninstall -y tornado; pip install tornado==5.1.1
