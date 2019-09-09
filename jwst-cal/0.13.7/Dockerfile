@@ -31,12 +31,18 @@ RUN apt-get update -y
 # Additional apt packages
 RUN apt-get install curl -y
 
+# Setup the notebook start hooks directory
+RUN mkdir -p /usr/local/bin/start-notebook.d
+
 # Configure astroquery to use JWST A-string MAST server.  We can't
 # just copy an astroquery.cfg to the jovyan user's home directory
 # because that directory isn't mounted until the container is
 # launched by Kubernetes.
-RUN mkdir -p /usr/local/bin/start-notebook.d
 COPY create_astroquery_cfg.sh /usr/local/bin/start-notebook.d/
+
+# Copy the example notebooks to the user's home directory, if missing.
+COPY example_notebooks /opt/example_notebooks
+COPY create_example_notebooks.sh /usr/local/bin/start-notebook.d/
 
 USER jovyan
 
@@ -44,6 +50,9 @@ USER jovyan
 RUN wget https://ssb.stsci.edu/releases/jwstdp/0.13.7/latest-linux
 RUN conda install --file latest-linux
 RUN rm latest-linux
+
+# latest-linux specifies astropy 4.0.0.dev13236, but we actually need 3.2.1
+RUN pip uninstall -y astropy; pip install astropy==3.2.1
 
 # Additional pip packages
 RUN pip install --upgrade --pre astroquery
