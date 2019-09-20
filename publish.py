@@ -11,7 +11,7 @@ import sys
 def parse_args():
     parser = ArgumentParser("publish.py", description="build, commit, tag (git and Docker) and push a Docker image")
     parser.add_argument("folder_path", help="directory containing, at minimum, Dockerfile and VERSION files")
-
+    parser.add_argument("--dev", help="dev mode: publish to the dev repository and skip git repo tagging", action="store_true")
     return parser.parse_args()
 
 
@@ -24,7 +24,9 @@ def is_integer(value):
 
 
 def main():
-    folder_path = Path(parse_args().folder_path).absolute()
+    args = parse_args()
+
+    folder_path = Path(args.folder_path).absolute()
     dockerfile_path = folder_path/"Dockerfile"
     version_path = folder_path/"VERSION"
 
@@ -38,7 +40,11 @@ def main():
     with version_path.open() as version_file:
         version_parts = version_file.read().strip().split(".")
 
-    repo = version_parts[0]
+    if args.dev:
+        repo = version_parts[0] + "-dev"
+    else:
+        repo = version_parts[0]
+
     if is_integer(version_parts[-1]):
         versions = version_parts[1:]
         extra = []
@@ -49,11 +55,17 @@ def main():
 
     assert is_integer(versions[-1]), "the last version number must be an integer"
 
-    # Confirm that local and remote are at the same revision
-    subprocess.check_call(["git", "fetch"])
-    our_hash = subprocess.check_output(["git", "rev-parse", "HEAD"])
-    upstream_hash = subprocess.check_output(["git", "rev-parse", "@{u}"])
-    assert our_hash == upstream_hash, "local and/or remote are missing commits"
+    branch_name = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).decode("utf-8").strip()
+    if not args.dev:
+        # We don't want to publish and tag development branches to the
+        # main ECR repository.
+        assert branch_name == "master", "cannot publish and tag non-master branch (consider using the --dev flag)"
+
+        # Confirm that local and remote are at the same revision
+        subprocess.check_call(["git", "fetch"])
+        our_hash = subprocess.check_output(["git", "rev-parse", "HEAD"])
+        upstream_hash = subprocess.check_output(["git", "rev-parse", "@{u}"])
+        assert our_hash == upstream_hash, "local and/or remote are missing commits"
 
     # Ask aws-cli to generate a Docker login command and execute it
     login_command = subprocess.check_output(["aws", "ecr", "get-login", "--no-include-email", "--region", "us-east-1"])
@@ -65,28 +77,34 @@ def main():
 
     # Build the docker image, adding tags for latest and each level of the version
     docker_command = ["docker", "build"]
-    # Create tags for "latest" as well as each non-development level of the version.
-    # For example, if the version is v1.2.3.devel, we want tags for v1, v1.2, and v1.2.3
-    tags = ["latest"] + [".".join(versions[0:i]) for i in range(1, len(versions) + 1)]
+
+    if args.dev:
+        tags = [branch_name]
+    else:
+        # Create tags for "latest" as well as each non-development level of the version.
+        # For example, if the version is v1.2.3.devel, we want tags for v1, v1.2, and v1.2.3
+        tags = ["latest"] + [".".join(versions[0:i]) for i in range(1, len(versions) + 1)]
+
     for tag in tags:
         full_tag = f"{docker_hub_hostname}/{repo}:{tag}"
         docker_command.extend(["-t", full_tag])
     docker_command.append(str(folder_path))
     subprocess.check_call(docker_command)
 
-    # Advance the rightmost version by one and save the result back to the VERSION file
-    new_versions = versions.copy()
-    new_versions[-1] = str(int(new_versions[-1]) + 1)
-    with version_path.open("w") as version_file:
-        version_file.write(".".join([repo] + new_versions + extra))
-        version_file.write("\n")
+    if not args.dev:
+        # Advance the rightmost version by one and save the result back to the VERSION file
+        new_versions = versions.copy()
+        new_versions[-1] = str(int(new_versions[-1]) + 1)
+        with version_path.open("w") as version_file:
+            version_file.write(".".join([repo] + new_versions + extra))
+            version_file.write("\n")
 
-    # Commit any changes in the directory (user will be prompted for a commit message)
-    subprocess.check_call(["git", "add", "."])
-    subprocess.check_call(["git", "commit"])
-    subprocess.check_call(["git", "tag", "-a", ".".join([repo] + versions), "-m", "auto tag version"])
-    subprocess.check_call(["git", "push"])
-    subprocess.check_call(["git", "push", "--tags"])
+        # Commit any changes in the directory (user will be prompted for a commit message)
+        subprocess.check_call(["git", "add", "."])
+        subprocess.check_call(["git", "commit"])
+        subprocess.check_call(["git", "tag", "-a", ".".join([repo] + versions), "-m", "auto tag version"])
+        subprocess.check_call(["git", "push"])
+        subprocess.check_call(["git", "push", "--tags"])
 
     # Push the new image to the Docker repository
     subprocess.check_call(["docker", "push", f"{docker_hub_hostname}/{repo}"])
