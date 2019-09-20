@@ -24,47 +24,74 @@ ENV CRDS_DOWNLOAD_MODE=plugin
 ENV CRDS_DOWNLOAD_PLUGIN='crds_s3_get ${SOURCE_URL} ${OUTPUT_PATH} ${FILE_SIZE} ${FILE_SHA1SUM}'
 ENV CRDS_CONTEXT=jwst_0535.pmap
 
-# Keep Ubuntu secure
 USER root
+
+# Keep Ubuntu secure
 RUN apt-get update -y
 
 # Additional apt packages
 RUN apt-get install curl -y
 
-# Setup the notebook start hooks directory
-RUN mkdir -p /usr/local/bin/start-notebook.d
-
-# Configure astroquery to use JWST A-string MAST server.  We can't
-# just copy an astroquery.cfg to the jovyan user's home directory
-# because that directory isn't mounted until the container is
-# launched by Kubernetes.
-COPY create_astroquery_cfg.sh /usr/local/bin/start-notebook.d/
-
-# Copy the example notebooks to the user's home directory, if missing.
-COPY example_notebooks /opt/example_notebooks
-COPY create_example_notebooks.sh /usr/local/bin/start-notebook.d/
-
-USER jovyan
-
 # Install jwst 0.13.7 and dependencies
-RUN wget https://ssb.stsci.edu/releases/jwstdp/0.13.7/latest-linux
-RUN conda install --file latest-linux
-RUN rm latest-linux
+#####################################################################
+RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
+    conda create -n jwst-cal python=3.6.8 &&\
+    conda activate jwst-cal &&\
+    pip install --upgrade numpy &&\
+    # Installing from the 0.13.7 tag instead of the official conda package list, since
+    # as of 2019-09-20 the package list has a dependency conflict and can't be installed:
+    pip install git+https://github.com/spacetelescope/jwst#0.13.7 &&\
+    # We need the pre-release version of astroquery in order to make requests of
+    # JWST A-string MAST.
+    pip install --upgrade --pre astroquery &&\
+    # The aws-cli is used by CRDS to cache files
+    pip install --upgrade awscli &&\
+    # The example notebook would like to do some plotting
+    pip install matplotlib &&\
+    # Needed because one of the 0.13.7 dependencies accidentally imported it in non-test code
+    # (this issue has been fixed, we're only seeing it because we pinned an old version)
+    pip install pytest &&\
+    # S3-enabled release of CRDS:
+    pip install --upgrade git+https://github.com/spacetelescope/crds.git@7.4.1#egg=crds[aws] &&\
+    pip install ipykernel &&\
+    python -m ipykernel install --name jwst-cal --display-name "JWST 0.13.7"
+#####################################################################
 
-# latest-linux specifies astropy 4.0.0.dev13236, but we actually need 3.2.1
-RUN pip uninstall -y astropy; pip install astropy==3.2.1
+# Install MIRISim
+#####################################################################
+ENV MIRISIM_ROOT=/opt/mirisim
+ENV PYSYN_CDBS=$MIRISIM_ROOT/cdbs/
 
-# Additional pip packages
-RUN pip install --upgrade --pre astroquery
-RUN pip install --upgrade awscli
+RUN mkdir -p $MIRISIM_ROOT
 
-# S3-enabled release of CRDS:
-RUN pip install --upgrade git+https://github.com/spacetelescope/crds.git@7.4.1#egg=crds[aws]
+RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
+    wget http://miri.ster.kuleuven.be/pub/Public/MirisimInstallation/mirisim_install.bash &&\
+    chmod +x mirisim_install.bash &&\
+    # Version 9 corresponds to MIRISim 2.1.0, which is set up with the same reference
+    # files as jwst 0.13.7.
+    ./mirisim_install.bash --version 9 --path $MIRISIM_ROOT &&\
+    rm mirisim_install.bash &&\
+    conda activate mirisim &&\
+    # Install this environment as an ipython kernel
+    pip install ipykernel &&\
+    python -m ipykernel install --name mirisim --display-name "MIRISim 2.1.0"
+# #####################################################################
 
-# Tornado 6.x isn't compatible with Jupyter Notebook:
-RUN pip uninstall -y tornado; pip install tornado==5.1.1
+# Setup a notebook start hook that populates the home directory.  We do this in a roundabout
+# way because the EFS mount isn't available until the server actually starts in the cluster.
+RUN mkdir -p /usr/local/bin/start-notebook.d
+COPY apply_home_template.sh /usr/local/bin/start-notebook.d
+COPY home_template /opt/home_template
 
-# README
-COPY platform_readme.txt /opt/README
+# Add content to the global bashrc
+COPY global_bashrc /home/jovyan
+RUN cat /home/jovyan/global_bashrc >> /etc/bash.bashrc &&\
+    rm /home/jovyan/global_bashrc
+
+# Clean out the home directory so it mimics a fresh EFS mount (useful for developer testing)
+RUN rm -rf /home/jovyan/*
+RUN rm -r /home/jovyan/.[a-zA-Z_]*
 
 COPY VERSION /opt
+
+USER $NB_UID
