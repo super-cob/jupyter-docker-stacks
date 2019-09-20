@@ -75,7 +75,7 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     # Install this environment as an ipython kernel
     pip install ipykernel &&\
     python -m ipykernel install --name mirisim --display-name "MIRISim 2.1.0"
-# #####################################################################
+#####################################################################
 
 # Setup a notebook start hook that populates the home directory.  We do this in a roundabout
 # way because the EFS mount isn't available until the server actually starts in the cluster.
