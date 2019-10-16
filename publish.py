@@ -50,10 +50,10 @@ def main():
     assert is_integer(versions[-1]), "the last version number must be an integer"
 
     # Confirm that local and remote are at the same revision
-    subprocess.check_call(["git", "fetch"])
-    our_hash = subprocess.check_output(["git", "rev-parse", "HEAD"])
-    upstream_hash = subprocess.check_output(["git", "rev-parse", "@{u}"])
-    assert our_hash == upstream_hash, "local and/or remote are missing commits"
+#    subprocess.check_call(["git", "fetch"])
+#    our_hash = subprocess.check_output(["git", "rev-parse", "HEAD"])
+#    upstream_hash = subprocess.check_output(["git", "rev-parse", "@{u}"])
+#    assert our_hash == upstream_hash, "local and/or remote are missing commits"
 
     # Ask aws-cli to generate a Docker login command and execute it
     login_command = subprocess.check_output(["aws", "ecr", "get-login", "--no-include-email", "--region", "us-east-1"])
@@ -82,11 +82,11 @@ def main():
         version_file.write("\n")
 
     # Commit any changes in the directory (user will be prompted for a commit message)
-    subprocess.check_call(["git", "add", "."])
-    subprocess.check_call(["git", "commit"])
-    subprocess.check_call(["git", "tag", "-a", ".".join([repo] + versions), "-m", "auto tag version"])
-    subprocess.check_call(["git", "push"])
-    subprocess.check_call(["git", "push", "--tags"])
+#    subprocess.check_call(["git", "add", "."])
+#    subprocess.check_call(["git", "commit"])
+#    subprocess.check_call(["git", "tag", "-a", ".".join([repo] + versions), "-m", "auto tag version"])
+#    subprocess.check_call(["git", "push"])
+#    subprocess.check_call(["git", "push", "--tags"])
 
     # Push the new image to the Docker repository
     subprocess.check_call(["docker", "push", f"{docker_hub_hostname}/{repo}"])
