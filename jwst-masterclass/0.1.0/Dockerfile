@@ -37,20 +37,31 @@ RUN apt-get install curl -y
 RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     conda create -n jwst-masterclass python=3.6.8 &&\
     conda activate jwst-masterclass &&\
+
     pip install --upgrade numpy &&\
+
     pip install git+https://github.com/spacetelescope/jwst &&\
+
     # We need the pre-release version of astroquery in order to make requests of
     # JWST A-string MAST.
     pip install --upgrade --pre astroquery &&\
+
     # The aws-cli is used by CRDS to cache files
     pip install --upgrade awscli &&\
+
     # The example notebook would like to do some plotting
     pip install matplotlib &&\
+
     pip install pytest &&\
+
     # S3-enabled release of CRDS:
     pip install --upgrade git+https://github.com/spacetelescope/crds.git@7.4.1#egg=crds[aws] &&\
+
     pip install ipykernel &&\
     python -m ipykernel install --name jwst-masterclass --display-name "JWST Master Class"
+
+    # MTVT
+    pip install git+https://github.com/spacetelescope/jwst_gtvt.git
 #####################################################################
 
 
