@@ -58,7 +58,7 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     pip install --upgrade git+https://github.com/spacetelescope/crds.git@7.4.1#egg=crds[aws] &&\
 
     pip install ipykernel &&\
-    python -m ipykernel install --name jwst-masterclass --display-name "JWST Master Class"
+    python -m ipykernel install --name jwst-masterclass --display-name "JWST Master Class" &&\
 
     # MTVT
     pip install git+https://github.com/spacetelescope/jwst_gtvt.git
