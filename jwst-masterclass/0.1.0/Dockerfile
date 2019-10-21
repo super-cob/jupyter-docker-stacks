@@ -61,7 +61,11 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     python -m ipykernel install --name jwst-masterclass --display-name "JWST Master Class" &&\
 
     # MTVT
-    pip install git+https://github.com/spacetelescope/jwst_gtvt.git
+    wget https://github.com/spacetelescope/jwst_gtvt/archive/master.zip &&\
+    unzip master.zip &&\
+    rm master.zip &&\
+    cd jwst_gtvt-master &&\
+    python setup.py install
 #####################################################################
 
 
