@@ -1,0 +1,9 @@
+{
+    "argv": [
+        "/opt/kernel_runner.py",
+        "mirisim",
+        "{connection_file}"
+    ],
+    "display_name": "MIRISim 2.1.0",
+    "language": "python"
+}
