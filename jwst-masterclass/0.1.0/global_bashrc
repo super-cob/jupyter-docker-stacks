@@ -2,4 +2,5 @@ export PS1="${debian_chroot:+($debian_chroot)}\u@notebook:\w\$ "
 
 # Enable conda and activate jwst-masterclass by default
 . "/opt/conda/etc/profile.d/conda.sh"
-conda activate jwst-masterclass
+#conda activate jwst-masterclass
+. /opt/conda/envs/jwst-masterclass/bin/activate
