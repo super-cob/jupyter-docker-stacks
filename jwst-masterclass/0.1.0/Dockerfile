@@ -23,6 +23,7 @@ ENV CRDS_USE_PICKLES=0
 ENV CRDS_DOWNLOAD_MODE=plugin
 ENV CRDS_DOWNLOAD_PLUGIN='crds_s3_get ${SOURCE_URL} ${OUTPUT_PATH} ${FILE_SIZE} ${FILE_SHA1SUM}'
 ENV CRDS_CONTEXT=jwst_0535.pmap
+ENV JUPYTER_PATH
 
 USER root
 
@@ -58,7 +59,7 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     pip install --upgrade git+https://github.com/spacetelescope/crds.git@7.4.1#egg=crds[aws] &&\
 
     pip install ipykernel &&\
-    python -m ipykernel install --name jwst-masterclass --display-name "JWST Master Class" &&\
+    python -m ipykernel install --name jwst-masterclass --display-name "JWST Master Class" --prefix=/opt/conda/envs/jwst-masterclass &&\
 
     # MTVT
     pip install git+https://github.com/spacetelescope/jwst_gtvt.git
