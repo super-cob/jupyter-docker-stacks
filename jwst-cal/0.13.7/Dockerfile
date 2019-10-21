@@ -53,28 +53,26 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     pip install pytest &&\
     # S3-enabled release of CRDS:
     pip install --upgrade git+https://github.com/spacetelescope/crds.git@7.4.1#egg=crds[aws] &&\
-    pip install ipykernel &&\
-    python -m ipykernel install --name jwst-cal --display-name "JWST 0.13.7"
+    pip install ipykernel
 #####################################################################
 
-# Install MIRISim
-#####################################################################
-ENV MIRISIM_ROOT=/opt/mirisim
-ENV PYSYN_CDBS=$MIRISIM_ROOT/cdbs/
+# As of 2019-10-21, MIRISim does not install due to astroconda-dev being deprecated.
+# # Install MIRISim
+# #####################################################################
+# ENV MIRISIM_ROOT=/opt/mirisim
+# ENV PYSYN_CDBS=$MIRISIM_ROOT/cdbs/
 
-RUN mkdir -p $MIRISIM_ROOT
+# RUN mkdir -p $MIRISIM_ROOT
 
-RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
-    wget http://miri.ster.kuleuven.be/pub/Public/MirisimInstallation/mirisim_install.bash &&\
-    chmod +x mirisim_install.bash &&\
-    # Version 9 corresponds to MIRISim 2.1.0, which is set up with the same reference
-    # files as jwst 0.13.7.
-    ./mirisim_install.bash --version 9 --path $MIRISIM_ROOT &&\
-    rm mirisim_install.bash &&\
-    conda activate mirisim &&\
-    # Install this environment as an ipython kernel
-    pip install ipykernel &&\
-    python -m ipykernel install --name mirisim --display-name "MIRISim 2.1.0"
+# RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
+#     wget http://miri.ster.kuleuven.be/pub/Public/MirisimInstallation/mirisim_install.bash &&\
+#     chmod +x mirisim_install.bash &&\
+#     # Version 9 corresponds to MIRISim 2.1.0, which is set up with the same reference
+#     # files as jwst 0.13.7.
+#     ./mirisim_install.bash --version 9 --path $MIRISIM_ROOT &&\
+#     rm mirisim_install.bash &&\
+#     conda activate mirisim &&\
+#     pip install ipykernel
 # #####################################################################
 
 # Setup a notebook start hook that populates the home directory.  We do this in a roundabout
@@ -87,6 +85,22 @@ COPY home_template /opt/home_template
 COPY global_bashrc /home/jovyan
 RUN cat /home/jovyan/global_bashrc >> /etc/bash.bashrc &&\
     rm /home/jovyan/global_bashrc
+
+# Add kernel runner script that ensures conda environment is activated
+COPY kernel_runner.py /opt
+
+# Create kernel for jwst-cal environment
+RUN mkdir -p /usr/local/share/jupyter/kernels/jwst-cal
+COPY kernel.jwst-cal.json /usr/local/share/jupyter/kernels/jwst-cal/kernel.json
+COPY logo-32x32.png /usr/local/share/jupyter/kernels/jwst-cal
+COPY logo-64x64.png /usr/local/share/jupyter/kernels/jwst-cal
+
+# As of 2019-10-21, MIRISim does not install due to astroconda-dev being deprecated.
+# # Create kernel for mirisim environment
+# RUN mkdir -p /usr/local/share/jupyter/kernels/mirisim
+# COPY kernel.mirisim.json /usr/local/share/jupyter/kernels/mirisim/kernel.json
+# COPY logo-32x32.png /usr/local/share/jupyter/kernels/mirisim
+# COPY logo-64x64.png /usr/local/share/jupyter/kernels/mirisim
 
 # Clean out the home directory so it mimics a fresh EFS mount (useful for developer testing)
 RUN rm -rf /home/jovyan/*
