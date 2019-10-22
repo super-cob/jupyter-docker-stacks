@@ -36,7 +36,6 @@ def main():
 
     # Change to the directory so git commands act on the correct repository
     os.chdir(folder_path)
-    here = os.getcwd()
 
     with version_path.open() as version_file:
         version_parts = version_file.read().strip().split(".")
@@ -90,9 +89,6 @@ def main():
         full_tag = f"{docker_hub_hostname}/{repo}:{tag}"
         docker_command.extend(["-t", full_tag])
     docker_command.append(str(folder_path))
-    docker_command.extend(["-f", dockerfile_path])
-
-    os.chdir(here)
     subprocess.check_call(docker_command)
 
     if not args.dev:
