@@ -58,9 +58,9 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     pip install --upgrade git+https://github.com/spacetelescope/crds.git@7.4.1#egg=crds[aws] &&\
 
     # MTVT
-    pip install git+https://github.com/spacetelescope/jwst_gtvt.git
+    pip install git+https://github.com/spacetelescope/jwst_gtvt.git &&\
 
-    pip install ipykernel &&\
+    pip install ipykernel
 #####################################################################
 
 
