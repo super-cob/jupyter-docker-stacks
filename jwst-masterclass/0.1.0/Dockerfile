@@ -57,11 +57,10 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     # S3-enabled release of CRDS:
     pip install --upgrade git+https://github.com/spacetelescope/crds.git@7.4.1#egg=crds[aws] &&\
 
-    pip install ipykernel &&\
-    python -m ipykernel install --name jwst-masterclass --display-name "JWST Master Class" --prefix=/opt/conda/envs/jwst-masterclass &&\
-
     # MTVT
     pip install git+https://github.com/spacetelescope/jwst_gtvt.git
+
+    pip install &&\
 #####################################################################
 
 
@@ -75,6 +74,16 @@ COPY home_template /opt/home_template
 COPY global_bashrc /home/jovyan
 RUN cat /home/jovyan/global_bashrc >> /etc/bash.bashrc &&\
     rm /home/jovyan/global_bashrc
+
+
+# Add kernel runner script that ensures conda environment is activated
+COPY ../../tools/kernel_runner.py /opt
+
+# Create kernel for jwst-masterclass environment
+RUN mkdir -p /usr/local/share/jupyter/kernels/jwst-masterclass
+COPY kernel.jwst-masterclass.json /usr/local/share/jupyter/kernels/jwst-masterclass/kernel.json
+COPY ../../images/logo-32x32.png /usr/local/share/jupyter/kernels/jwst-masterclass
+COPY ../../images/logo-64x64.png /usr/local/share/jupyter/kernels/jwst-masterclass
 
 # Clean out the home directory so it mimics a fresh EFS mount (useful for developer testing)
 RUN rm -rf /home/jovyan/*

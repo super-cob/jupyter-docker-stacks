@@ -1,0 +1,9 @@
+{
+    "argv": [
+        "/opt/kernel_runner.py",
+        "jwst-masterclass",
+        "{connection_file}"
+    ],
+    "display_name": "JWST Master Class",
+    "language": "python"
+}
