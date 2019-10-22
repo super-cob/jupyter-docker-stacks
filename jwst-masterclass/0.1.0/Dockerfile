@@ -77,13 +77,13 @@ RUN cat /home/jovyan/global_bashrc >> /etc/bash.bashrc &&\
 
 
 # Add kernel runner script that ensures conda environment is activated
-COPY ../../scripts/kernel_runner.py /opt
+COPY kernel_runner.py /opt
 
 # Create kernel for jwst-masterclass environment
 RUN mkdir -p /usr/local/share/jupyter/kernels/jwst-masterclass
 COPY kernel.jwst-masterclass.json /usr/local/share/jupyter/kernels/jwst-masterclass/kernel.json
-COPY ../../images/logo-32x32.png /usr/local/share/jupyter/kernels/jwst-masterclass
-COPY ../../images/logo-64x64.png /usr/local/share/jupyter/kernels/jwst-masterclass
+COPY logo-32x32.png /usr/local/share/jupyter/kernels/jwst-masterclass
+COPY logo-64x64.png /usr/local/share/jupyter/kernels/jwst-masterclass
 
 # Clean out the home directory so it mimics a fresh EFS mount (useful for developer testing)
 RUN rm -rf /home/jovyan/*
