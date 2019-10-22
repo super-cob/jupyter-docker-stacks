@@ -77,7 +77,7 @@ RUN cat /home/jovyan/global_bashrc >> /etc/bash.bashrc &&\
 
 
 # Add kernel runner script that ensures conda environment is activated
-COPY ../../tools/kernel_runner.py /opt
+COPY ../../scripts/kernel_runner.py /opt
 
 # Create kernel for jwst-masterclass environment
 RUN mkdir -p /usr/local/share/jupyter/kernels/jwst-masterclass
