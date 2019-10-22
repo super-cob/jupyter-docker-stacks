@@ -60,7 +60,7 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     # MTVT
     pip install git+https://github.com/spacetelescope/jwst_gtvt.git
 
-    pip install &&\
+    pip install ipykernel &&\
 #####################################################################
 
 
