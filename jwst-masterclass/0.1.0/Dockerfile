@@ -24,6 +24,12 @@ ENV CRDS_DOWNLOAD_MODE=plugin
 ENV CRDS_DOWNLOAD_PLUGIN='crds_s3_get ${SOURCE_URL} ${OUTPUT_PATH} ${FILE_SIZE} ${FILE_SHA1SUM}'
 ENV CRDS_CONTEXT=jwst_0535.pmap
 
+ENV pandeia_refdata=/data/pandeia
+ENV WEBBPSF_PATH=/data/webbpsf
+ENV PYSYN_CDBS=/data/pysynphot
+ENV MIRAGE_DATA=/data/mirage
+#ENV MIRISIM_ROOT=/data/mirisim
+
 USER root
 
 # Keep Ubuntu secure
@@ -60,6 +66,18 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     # MTVT
     pip install git+https://github.com/spacetelescope/jwst_gtvt.git &&\
 
+    pip install webbpsf &&\
+
+    # Pandeia engine
+    pip install pandeia.engine &&\
+
+    pip install git+https://github.com/spacetelescope/pandeia-coronagraphy.git &&\
+
+    pip install pysiaf &&\
+
+    # MIRAGE
+    pip install git+https://github.com/spacetelescope/mirage.git &&\
+    
     pip install ipykernel
 #####################################################################
 
