@@ -22,6 +22,7 @@ ENV CRDS_CONFIG_URI=s3://dmd-test-crds/config/jwst
 ENV CRDS_USE_PICKLES=0
 ENV CRDS_DOWNLOAD_MODE=plugin
 ENV CRDS_DOWNLOAD_PLUGIN='crds_s3_get ${SOURCE_URL} ${OUTPUT_PATH} ${FILE_SIZE} ${FILE_SHA1SUM}'
+ENV CRDS_CONTEXT=jwst_0535.pmap
 
 ENV pandeia_refdata=/data/pandeia
 ENV WEBBPSF_PATH=/data/webbpsf
@@ -91,6 +92,7 @@ COPY home_template /opt/home_template
 COPY global_bashrc /home/jovyan
 RUN cat /home/jovyan/global_bashrc >> /etc/bash.bashrc &&\
     rm /home/jovyan/global_bashrc
+
 
 # Add kernel runner script that ensures conda environment is activated
 COPY kernel_runner.py /opt
