@@ -74,7 +74,6 @@ COPY global_bashrc /home/jovyan
 RUN cat /home/jovyan/global_bashrc >> /etc/bash.bashrc &&\
     rm /home/jovyan/global_bashrc
 
-
 # Add kernel runner script that ensures conda environment is activated
 COPY kernel_runner.py /opt
 
