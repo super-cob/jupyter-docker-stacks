@@ -32,19 +32,15 @@ ENV MIRAGE_DATA=/data/mirage
 
 USER root
 
-# Keep Ubuntu secure
-RUN apt-get update -y
-
-# Additional apt packages
-RUN apt-get install curl -y
+RUN apt-get update --yes > /dev/null && \
+    apt-get install --yes curl && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install jwst and dependencies
 #####################################################################
 RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     conda create -n jwst-masterclass python=3.6.8 &&\
     conda activate jwst-masterclass &&\
-
-    pip install --upgrade numpy &&\
 
     pip install git+https://github.com/spacetelescope/jwst &&\
 
@@ -80,7 +76,6 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     
     pip install ipykernel
 #####################################################################
-
 
 # Setup a notebook start hook that populates the home directory.  We do this in a roundabout
 # way because the EFS mount isn't available until the server actually starts in the cluster.
