@@ -56,24 +56,21 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     pip install ipykernel
 #####################################################################
 
-# As of 2019-10-21, MIRISim does not install due to astroconda-dev being deprecated.
-# # Install MIRISim
-# #####################################################################
-# ENV MIRISIM_ROOT=/opt/mirisim
-# ENV PYSYN_CDBS=$MIRISIM_ROOT/cdbs/
+# Install MIRISim
+#####################################################################
+ENV MIRISIM_ROOT=/data/mirisim
+ENV PYSYN_CDBS=$MIRISIM_ROOT/cdbs/
 
-# RUN mkdir -p $MIRISIM_ROOT
+# This file is an explicit package list for MIRISim 2.1.0, which is set up with the
+# same reference files as jwst 0.13.7.  We are currently (2019-10-22) maintaining
+# our own copy because the original references packages on anaconda-dev, which is defunct.
+COPY miricle-linux-py35.0.txt /opt
 
-# RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
-#     wget http://miri.ster.kuleuven.be/pub/Public/MirisimInstallation/mirisim_install.bash &&\
-#     chmod +x mirisim_install.bash &&\
-#     # Version 9 corresponds to MIRISim 2.1.0, which is set up with the same reference
-#     # files as jwst 0.13.7.
-#     ./mirisim_install.bash --version 9 --path $MIRISIM_ROOT &&\
-#     rm mirisim_install.bash &&\
-#     conda activate mirisim &&\
-#     pip install ipykernel
-# #####################################################################
+RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
+    conda create --yes --name mirisim --file /opt/miricle-linux-py35.0.txt &&\
+    conda activate mirisim &&\
+    pip install ipykernel
+#####################################################################
 
 # Setup a notebook start hook that populates the home directory.  We do this in a roundabout
 # way because the EFS mount isn't available until the server actually starts in the cluster.
@@ -95,12 +92,11 @@ COPY kernel.jwst-cal.json /usr/local/share/jupyter/kernels/jwst-cal/kernel.json
 COPY logo-32x32.png /usr/local/share/jupyter/kernels/jwst-cal
 COPY logo-64x64.png /usr/local/share/jupyter/kernels/jwst-cal
 
-# As of 2019-10-21, MIRISim does not install due to astroconda-dev being deprecated.
 # # Create kernel for mirisim environment
-# RUN mkdir -p /usr/local/share/jupyter/kernels/mirisim
-# COPY kernel.mirisim.json /usr/local/share/jupyter/kernels/mirisim/kernel.json
-# COPY logo-32x32.png /usr/local/share/jupyter/kernels/mirisim
-# COPY logo-64x64.png /usr/local/share/jupyter/kernels/mirisim
+RUN mkdir -p /usr/local/share/jupyter/kernels/mirisim
+COPY kernel.mirisim.json /usr/local/share/jupyter/kernels/mirisim/kernel.json
+COPY logo-32x32.png /usr/local/share/jupyter/kernels/mirisim
+COPY logo-64x64.png /usr/local/share/jupyter/kernels/mirisim
 
 # Clean out the home directory so it mimics a fresh EFS mount (useful for developer testing)
 RUN rm -rf /home/jovyan/*
