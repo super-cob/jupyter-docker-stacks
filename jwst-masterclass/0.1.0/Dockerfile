@@ -24,10 +24,10 @@ ENV CRDS_DOWNLOAD_MODE=plugin
 ENV CRDS_DOWNLOAD_PLUGIN='crds_s3_get ${SOURCE_URL} ${OUTPUT_PATH} ${FILE_SIZE} ${FILE_SHA1SUM}'
 ENV CRDS_CONTEXT=jwst_0535.pmap
 
-ENV pandeia_refdata=/data/pandeia
-ENV WEBBPSF_PATH=/data/webbpsf
-ENV PYSYN_CDBS=/data/pysynphot
-ENV MIRAGE_DATA=/data/mirage
+#ENV pandeia_refdata=/data/pandeia
+#ENV WEBBPSF_PATH=/data/webbpsf
+#ENV PYSYN_CDBS=/data/pysynphot
+#ENV MIRAGE_DATA=/data/mirage
 #ENV MIRISIM_ROOT=/data/mirisim
 
 USER root
@@ -59,20 +59,20 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     # S3-enabled release of CRDS:
     pip install --upgrade git+https://github.com/spacetelescope/crds.git@7.4.1#egg=crds[aws] --no-cache-dir &&\
 
-    # MTVT
+    # GTVT and MTVT
     pip install git+https://github.com/spacetelescope/jwst_gtvt.git --no-cache-dir &&\
 
-    pip install webbpsf --no-cache-dir &&\
+    #pip install webbpsf --no-cache-dir &&\
 
     # Pandeia engine
-    pip install pandeia.engine --no-cache-dir &&\
+    #pip install pandeia.engine --no-cache-dir &&\
 
-    pip install git+https://github.com/spacetelescope/pandeia-coronagraphy.git --no-cache-dir &&\
+    #pip install git+https://github.com/spacetelescope/pandeia-coronagraphy.git --no-cache-dir &&\
 
-    pip install pysiaf --no-cache-dir &&\
+    #pip install pysiaf --no-cache-dir &&\
 
     # MIRAGE
-    pip install git+https://github.com/spacetelescope/mirage.git --no-cache-dir &&\
+    #pip install git+https://github.com/spacetelescope/mirage.git --no-cache-dir &&\
     
     pip install ipykernel --no-cache-dir
 #####################################################################
