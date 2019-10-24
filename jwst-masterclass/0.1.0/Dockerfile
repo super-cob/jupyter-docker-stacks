@@ -22,12 +22,11 @@ ENV CRDS_CONFIG_URI=s3://dmd-test-crds/config/jwst
 ENV CRDS_USE_PICKLES=0
 ENV CRDS_DOWNLOAD_MODE=plugin
 ENV CRDS_DOWNLOAD_PLUGIN='crds_s3_get ${SOURCE_URL} ${OUTPUT_PATH} ${FILE_SIZE} ${FILE_SHA1SUM}'
-ENV CRDS_CONTEXT=jwst_0535.pmap
 
-ENV pandeia_refdata=/data/pandeia
-ENV WEBBPSF_PATH=/data/webbpsf
-ENV PYSYN_CDBS=/data/pysynphot
-ENV MIRAGE_DATA=/data/mirage
+#ENV pandeia_refdata=/data/pandeia
+#ENV WEBBPSF_PATH=/data/webbpsf
+#ENV PYSYN_CDBS=/data/pysynphot
+#ENV MIRAGE_DATA=/data/mirage
 #ENV MIRISIM_ROOT=/data/mirisim
 
 USER root
@@ -42,39 +41,39 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     conda create -n jwst-masterclass python=3.6.8 &&\
     conda activate jwst-masterclass &&\
 
-    pip install git+https://github.com/spacetelescope/jwst &&\
+    pip install git+https://github.com/spacetelescope/jwst --no-cache-dir &&\
 
     # We need the pre-release version of astroquery in order to make requests of
     # JWST A-string MAST.
-    pip install --upgrade --pre astroquery &&\
+    pip install --upgrade --pre astroquery --no-cache-dir &&\
 
     # The aws-cli is used by CRDS to cache files
-    pip install --upgrade awscli &&\
+    pip install --upgrade awscli --no-cache-dir &&\
 
     # The example notebook would like to do some plotting
-    pip install matplotlib &&\
+    pip install matplotlib --no-cache-dir &&\
 
-    pip install pytest &&\
+    pip install pytest --no-cache-dir &&\
 
     # S3-enabled release of CRDS:
-    pip install --upgrade git+https://github.com/spacetelescope/crds.git@7.4.1#egg=crds[aws] &&\
+    pip install --upgrade git+https://github.com/spacetelescope/crds.git@7.4.1#egg=crds[aws] --no-cache-dir &&\
 
-    # MTVT
-    pip install git+https://github.com/spacetelescope/jwst_gtvt.git &&\
+    # GTVT and MTVT
+    pip install git+https://github.com/spacetelescope/jwst_gtvt.git --no-cache-dir &&\
 
-    pip install webbpsf &&\
+    #pip install webbpsf --no-cache-dir &&\
 
     # Pandeia engine
-    pip install pandeia.engine &&\
+    #pip install pandeia.engine --no-cache-dir &&\
 
-    pip install git+https://github.com/spacetelescope/pandeia-coronagraphy.git &&\
+    #pip install git+https://github.com/spacetelescope/pandeia-coronagraphy.git --no-cache-dir &&\
 
-    pip install pysiaf &&\
+    #pip install pysiaf --no-cache-dir &&\
 
     # MIRAGE
-    pip install git+https://github.com/spacetelescope/mirage.git &&\
+    #pip install git+https://github.com/spacetelescope/mirage.git --no-cache-dir &&\
     
-    pip install ipykernel
+    pip install ipykernel --no-cache-dir
 #####################################################################
 
 # Setup a notebook start hook that populates the home directory.  We do this in a roundabout
@@ -105,3 +104,4 @@ RUN rm -r /home/jovyan/.[a-zA-Z_]*
 COPY VERSION /opt
 
 USER $NB_UID
+
