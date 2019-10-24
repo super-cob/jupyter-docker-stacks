@@ -42,39 +42,39 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     conda create -n jwst-masterclass python=3.6.8 &&\
     conda activate jwst-masterclass &&\
 
-    pip install git+https://github.com/spacetelescope/jwst &&\
+    pip install git+https://github.com/spacetelescope/jwst --no-cache-dir &&\
 
     # We need the pre-release version of astroquery in order to make requests of
     # JWST A-string MAST.
-    pip install --upgrade --pre astroquery &&\
+    pip install --upgrade --pre astroquery --no-cache-dir &&\
 
     # The aws-cli is used by CRDS to cache files
-    pip install --upgrade awscli &&\
+    pip install --upgrade awscli --no-cache-dir &&\
 
     # The example notebook would like to do some plotting
-    pip install matplotlib &&\
+    pip install matplotlib --no-cache-dir &&\
 
-    pip install pytest &&\
+    pip install pytest --no-cache-dir &&\
 
     # S3-enabled release of CRDS:
-    pip install --upgrade git+https://github.com/spacetelescope/crds.git@7.4.1#egg=crds[aws] &&\
+    pip install --upgrade git+https://github.com/spacetelescope/crds.git@7.4.1#egg=crds[aws] --no-cache-dir &&\
 
     # MTVT
-    pip install git+https://github.com/spacetelescope/jwst_gtvt.git &&\
+    pip install git+https://github.com/spacetelescope/jwst_gtvt.git --no-cache-dir &&\
 
-    pip install webbpsf &&\
+    pip install webbpsf --no-cache-dir &&\
 
     # Pandeia engine
-    pip install pandeia.engine &&\
+    pip install pandeia.engine --no-cache-dir &&\
 
-    pip install git+https://github.com/spacetelescope/pandeia-coronagraphy.git &&\
+    pip install git+https://github.com/spacetelescope/pandeia-coronagraphy.git --no-cache-dir &&\
 
-    pip install pysiaf &&\
+    pip install pysiaf --no-cache-dir &&\
 
     # MIRAGE
-    pip install git+https://github.com/spacetelescope/mirage.git &&\
+    pip install git+https://github.com/spacetelescope/mirage.git --no-cache-dir &&\
     
-    pip install ipykernel
+    pip install ipykernel --no-cache-dir
 #####################################################################
 
 # Setup a notebook start hook that populates the home directory.  We do this in a roundabout
