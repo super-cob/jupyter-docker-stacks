@@ -72,6 +72,17 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     pip install ipykernel
 #####################################################################
 
+# Install MIRaGe
+#####################################################################
+ENV MIRAGE_DATA=/data/mirage
+ENV WEBBPSF_PATH=/data/webbpsf
+
+COPY mirage-environment.yml /opt
+
+RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
+    conda env create -f /opt/mirage-environment.yml
+#####################################################################
+
 # Setup a notebook start hook that populates the home directory.  We do this in a roundabout
 # way because the EFS mount isn't available until the server actually starts in the cluster.
 RUN mkdir -p /usr/local/bin/start-notebook.d
@@ -92,11 +103,17 @@ COPY kernel.jwst-cal.json /usr/local/share/jupyter/kernels/jwst-cal/kernel.json
 COPY logo-32x32.png /usr/local/share/jupyter/kernels/jwst-cal
 COPY logo-64x64.png /usr/local/share/jupyter/kernels/jwst-cal
 
-# # Create kernel for mirisim environment
+# Create kernel for mirisim environment
 RUN mkdir -p /usr/local/share/jupyter/kernels/mirisim
 COPY kernel.mirisim.json /usr/local/share/jupyter/kernels/mirisim/kernel.json
 COPY logo-32x32.png /usr/local/share/jupyter/kernels/mirisim
 COPY logo-64x64.png /usr/local/share/jupyter/kernels/mirisim
+
+# Create kernel for mirage environment
+RUN mkdir -p /usr/local/share/jupyter/kernels/mirage
+COPY kernel.mirage.json /usr/local/share/jupyter/kernels/mirage/kernel.json
+COPY logo-32x32.png /usr/local/share/jupyter/kernels/mirage
+COPY logo-64x64.png /usr/local/share/jupyter/kernels/mirage
 
 # Clean out the home directory so it mimics a fresh EFS mount (useful for developer testing)
 RUN rm -rf /home/jovyan/*
