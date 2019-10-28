@@ -47,6 +47,9 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     # JWST A-string MAST.
     pip install --upgrade --pre astroquery --no-cache-dir &&\
 
+    # install the latest of astropy
+    pip install git+https://github.com/astropy/astropy.git
+
     # The aws-cli is used by CRDS to cache files
     pip install --upgrade awscli --no-cache-dir &&\
 
@@ -65,6 +68,8 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
 
     # Pandeia engine
     pip install pandeia.engine --no-cache-dir &&\
+
+    pip install git+https://github.com/spacetelescope/pysynphot.git -no-cache-dir &&\
 
     pip install git+https://github.com/spacetelescope/pandeia-coronagraphy.git --no-cache-dir &&\
 
