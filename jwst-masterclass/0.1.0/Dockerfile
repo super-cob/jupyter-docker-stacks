@@ -48,7 +48,7 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     pip install --upgrade --pre astroquery --no-cache-dir &&\
 
     # install the latest of astropy
-    pip install git+https://github.com/astropy/astropy.git
+    pip install git+https://github.com/astropy/astropy.git &&\
 
     # The aws-cli is used by CRDS to cache files
     pip install --upgrade awscli --no-cache-dir &&\
