@@ -71,8 +71,9 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
 
     pip install git+https://github.com/spacetelescope/pysynphot.git --no-cache-dir &&\
 
-    #pip install git+https://github.com/spacetelescope/pandeia-coronagraphy.git --no-cache-dir &&\
+    pip install git+https://github.com/spacetelescope/pandeia-coronagraphy.git --no-cache-dir &&\
 
+    # NEED TO TEST
     pip install pysiaf --no-cache-dir &&\
 
     # MIRAGE
