@@ -69,7 +69,7 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     # Pandeia engine
     pip install pandeia.engine --no-cache-dir &&\
 
-    pip install git+https://github.com/spacetelescope/pysynphot.git -no-cache-dir &&\
+    pip install git+https://github.com/spacetelescope/pysynphot.git --no-cache-dir &&\
 
     #pip install git+https://github.com/spacetelescope/pandeia-coronagraphy.git --no-cache-dir &&\
 
