@@ -78,8 +78,11 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     # MIRAGE
     pip install git+https://github.com/spacetelescope/mirage.git --no-cache-dir &&\
 
+    # ED IS WORKING ON THIS
     # Coronagraphic Visibility Tool
-    pip install jwst-coronagraph-visibility --no-cache-dir &&\
+    #pip install jwst-coronagraph-visibility --no-cache-dir &&\
+
+    pip install jwst_backgrounds --no-cache-dir &&\
     
     pip install ipykernel --no-cache-dir
 #####################################################################
