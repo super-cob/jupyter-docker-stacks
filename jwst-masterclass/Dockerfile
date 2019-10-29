@@ -23,9 +23,6 @@ ENV CRDS_USE_PICKLES=0
 ENV CRDS_DOWNLOAD_MODE=plugin
 ENV CRDS_DOWNLOAD_PLUGIN='crds_s3_get ${SOURCE_URL} ${OUTPUT_PATH} ${FILE_SIZE} ${FILE_SHA1SUM}'
 
-ENV pandeia_refdata=/data/pandeia
-ENV WEBBPSF_PATH=/data/webbpsf
-ENV PYSYN_CDBS=/data/pysynphot
 ENV MIRAGE_DATA=/data/mirage
 ENV MIRISIM_ROOT=/data/mirisim
 
@@ -83,8 +80,11 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     #pip install jwst-coronagraph-visibility --no-cache-dir &&\
 
     pip install jwst_backgrounds --no-cache-dir &&\
-    
+
     pip install ipykernel --no-cache-dir
+
+RUN mkdir -p $CONDA_DIR/envs/jwst-masterclass/etc/conda/activate.d
+COPY jwst-masterclass-activate.sh $CONDA_DIR/envs/jwst-masterclass/etc/conda/activate.d/activate.sh
 #####################################################################
 
 # Setup a notebook start hook that populates the home directory.  We do this in a roundabout
@@ -115,4 +115,3 @@ RUN rm -r /home/jovyan/.[a-zA-Z_]*
 COPY VERSION /opt
 
 USER $NB_UID
-
