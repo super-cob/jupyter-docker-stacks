@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cp -R -u /opt/home_template/* /home/jovyan/
+sudo -u jovyan rsync -ur /opt/home_template/ /home/jovyan/
