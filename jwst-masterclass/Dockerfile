@@ -97,6 +97,12 @@ COPY logo-32x32.png /usr/local/share/jupyter/kernels/mirage
 COPY logo-64x64.png /usr/local/share/jupyter/kernels/mirage
 #####################################################################
 
+# Clone pandeia-coronagraphy to make the example notebooks available
+RUN git clone https://github.com/spacetelescope/pandeia-coronagraphy /opt/pandeia-coronagraphy
+COPY update_notebook_kernel.py /opt
+RUN find /opt/pandeia-coronagraphy/notebooks/ -name '*.ipynb' -exec /opt/update_notebook_kernel.py {} \
+    '{"display_name": "JWST Master Class", "language": "python", "name": "jwst-masterclass"}' \;
+
 # Setup a notebook start hook that populates the home directory.  We do this in a roundabout
 # way because the EFS mount isn't available until the server actually starts in the cluster.
 RUN mkdir -p /usr/local/bin/start-notebook.d
