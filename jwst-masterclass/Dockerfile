@@ -119,7 +119,7 @@ RUN rm -rf /home/jovyan/*
 RUN rm -r /home/jovyan/.[a-zA-Z_]*
 
 COPY VERSION /opt
-COPY start.sh /usr/local/bin
-CMD ["/usr/local/bin/start.sh"]
+COPY start_jd.sh /usr/local/bin
+CMD ["/usr/local/bin/start_jd.sh"]
 
 USER $NB_UID
