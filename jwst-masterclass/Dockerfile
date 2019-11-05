@@ -28,10 +28,29 @@ USER root
 RUN apt-get update --yes > /dev/null && \
     apt-get install --yes curl && \
     apt-get install --yes rsync && \
+    apt-get install --yes dbus-x11 && \
+    apt-get install --yes firefox && \
+    apt-get install --yes xfce4 && \
+    apt-get install --yes xfce4-panel && \
+    apt-get install --yes xfce4-session && \
+    apt-get install --yes xfce4-settings && \
+    apt-get install --yes xorg && \
+    apt-get install --yes xubuntu-icon-theme && \
     rm -rf /var/lib/apt/lists/*
 
 # Add kernel runner script that ensures conda environment is activated
 COPY kernel_runner.py /opt
+
+# Install base (common) environment
+COPY base-environment.yml /opt
+
+COPY jupyter_desktop /opt/jupyter_desktop
+COPY postBuild.sh /opt
+
+RUN . $CONDA_DIR/etc/profile.d/conda.sh && \
+conda env update --name base --file /opt/base-environment.yml
+
+RUN /opt/postBuild.sh
 
 # Install jwst-masterclass environment
 #####################################################################
@@ -94,5 +113,7 @@ RUN rm -rf /home/jovyan/*
 RUN rm -r /home/jovyan/.[a-zA-Z_]*
 
 COPY VERSION /opt
+COPY start.sh /usr/local/bin
+CMD ["/usr/local/bin/start.sh"]
 
 USER $NB_UID
