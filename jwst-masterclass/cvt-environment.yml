@@ -1,0 +1,12 @@
+name: cvt
+channels:
+- http://ssb.stsci.edu/astroconda
+- defaults
+dependencies:
+# Python
+- python==3.7.5
+# Environment support packages
+- ipykernel==4.8.2
+# Masterclass packages
+- jwst_coronagraph_visibility==0.3.0
+- matplotlib==2.2.4

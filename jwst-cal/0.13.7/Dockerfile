@@ -67,6 +67,7 @@ COPY miricle-linux-py35.0.txt /opt
 RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     conda create --yes --name mirisim --file /opt/miricle-linux-py35.0.txt &&\
     conda activate mirisim &&\
+    pip install --upgrade git+https://github.com/spacetelescope/crds.git@7.4.1.2#egg=crds[aws] &&\
     pip install ipykernel
 #####################################################################
 
