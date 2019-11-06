@@ -95,6 +95,8 @@ RUN mkdir -p /usr/local/bin/start-notebook.d
 COPY apply_home_template.sh /usr/local/bin/start-notebook.d
 COPY home_template /opt/home_template
 
+RUN jupyter labextension install jupyterlab-server-proxy
+
 # Add content to the global bashrc
 COPY global_bashrc /home/jovyan
 RUN cat /home/jovyan/global_bashrc >> /etc/bash.bashrc && \
