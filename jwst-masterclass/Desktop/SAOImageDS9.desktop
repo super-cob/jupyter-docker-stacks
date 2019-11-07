@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=DS9
+Name=SAOImageDS9
 Comment=
 Exec=/opt/conda/envs/jwst-masterclass/bin/ds9
 Icon=non-starred
