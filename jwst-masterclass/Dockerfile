@@ -102,6 +102,9 @@ COPY global_bashrc /home/jovyan
 RUN cat /home/jovyan/global_bashrc >> /etc/bash.bashrc && \
     rm /home/jovyan/global_bashrc
 
+# Add CVT and DS9 to the desktop
+COPY Desktop /opt/Desktop
+
 # Clean out the home directory so it mimics a fresh EFS mount (useful for developer testing)
 RUN rm -rf /home/jovyan/*
 RUN rm -r /home/jovyan/.[a-zA-Z_]*
