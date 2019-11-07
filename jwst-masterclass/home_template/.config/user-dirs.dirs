@@ -1,8 +1,0 @@
-XDG_DESKTOP_DIR=/opt/user-dirs/Desktop
-XDG_DOWNLOAD_DIR=/opt/user-dirs/Downloads
-XDG_TEMPLATES_DIR=/opt/user-dirs/Templates
-XDG_PUBLICSHARE_DIR=/opt/user-dirs/Public
-XDG_DOCUMENTS_DIR=/opt/user-dirs/Documents
-XDG_MUSIC_DIR=/opt/user-dirs/Music
-XDG_PICTURES_DIR=/opt/user-dirs/Pictures
-XDG_VIDEOS_DIR=/opt/user-dirs/Videos
