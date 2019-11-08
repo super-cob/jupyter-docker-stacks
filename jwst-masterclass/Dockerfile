@@ -26,8 +26,7 @@ ENV CRDS_DOWNLOAD_PLUGIN='crds_s3_get ${SOURCE_URL} ${OUTPUT_PATH} ${FILE_SIZE} 
 USER root
 
 RUN apt-get update --yes > /dev/null && \
-    apt-get install --yes curl rsync dbus-x11 firefox xfce4 xfce4-panel xfce4-session xfce4-settings xorg xubuntu-icon-theme && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install --yes curl rsync dbus-x11 firefox xfce4 xfce4-panel xfce4-session xfce4-settings xorg xubuntu-icon-theme
 
 # Add kernel runner script that ensures conda environment is activated
 COPY kernel_runner.py /opt
