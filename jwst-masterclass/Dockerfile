@@ -101,8 +101,9 @@ COPY global_bashrc /home/jovyan
 RUN cat /home/jovyan/global_bashrc >> /etc/bash.bashrc && \
     rm /home/jovyan/global_bashrc
 
-# Add CVT and DS9 to the desktop
-COPY Desktop /opt/Desktop
+# Keep Xfce directories out of home and set up shortcuts for DS9 and CVT.
+COPY user-dirs.defaults /etc/xdg/user-dirs.defaults
+COPY user-dirs /opt/user-dirs
 
 # Clean out the home directory so it mimics a fresh EFS mount (useful for developer testing)
 RUN rm -rf /home/jovyan/*
