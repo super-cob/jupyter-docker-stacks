@@ -2,11 +2,11 @@
 #
 # The values are relative pathnames from the home directory and
 # will be translated on a per-path-element basis into the users locale
-DESKTOP=/opt/user-dirs/Desktop
-DOWNLOAD=/opt/user-dirs/Downloads
-TEMPLATES=/opt/user-dirs/Templates
-PUBLICSHARE=/opt/user-dirs/Public
-DOCUMENTS=/opt/user-dirs/Documents
-MUSIC=/opt/user-dirs/Music
-PICTURES=/opt/user-dirs/Pictures
-VIDEOS=/opt/user-dirs/Videos
+DESKTOP=.user-dirs/Desktop
+DOWNLOAD=.user-dirs/Downloads
+TEMPLATES=.user-dirs/Templates
+PUBLICSHARE=.user-dirs/Public
+DOCUMENTS=.user-dirs/Documents
+MUSIC=.user-dirs/Music
+PICTURES=.user-dirs/Pictures
+VIDEOS=.user-dirs/Videos
