@@ -30,6 +30,7 @@ dependencies:
 # Mirage dependencies
   - jwst-backgrounds==1.1.1
   - git+https://github.com/astropy/astroquery.git@c96d5f4
+  - git+https://github.com/spacetelescope/jwst@ec9c583
   - git+https://github.com/spacetelescope/poppy.git@85495a7
   - git+https://github.com/spacetelescope/webbpsf.git@d94b100
   - git+https://github.com/npirzkal/NIRCAM_Gsim.git@5b09d62
