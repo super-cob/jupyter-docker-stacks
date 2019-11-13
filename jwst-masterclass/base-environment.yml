@@ -4,6 +4,4 @@ dependencies:
   - websockify==0.9.0
   - pip:
     - git+https://github.com/jupyterhub/jupyter-server-proxy@4b5ec52
-    # This branch is adjusted to send credentials when making requests for imported
-    # modules in noVNC.
-    - git+https://github.com/eslavich/jupyter-desktop.git@eslavich-crossorigin-use-credentials
+    - jupyter-desktop-server==0.1.2
