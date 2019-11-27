@@ -1,0 +1,9 @@
+{
+    "argv": [
+        "/opt/kernel_runner.py",
+        "jwst-cal",
+        "{connection_file}"
+    ],
+    "display_name": "JWST",
+    "language": "python"
+}

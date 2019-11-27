@@ -1,0 +1,13 @@
+name: jwst-cal
+channels:
+  - defaults
+dependencies:
+  - python==3.6.8
+  - numpy>=1.17.4
+  - matplotlib
+  - pytest
+  - ipykernel
+  - pip:
+    - git+https://github.com/spacetelescope/crds.git@7.4.1.3#egg=crds[aws]
+    - git+https://github.com/spacetelescope/jwst.git
+    - git+https://github.com/astropy/astroquery.git
