@@ -1,0 +1,38 @@
+name: base
+channels:
+  - astropy
+  - http://ssb.stsci.edu/astroconda
+  - conda-forge
+  - defaults
+dependencies:
+  - numpy
+  - astropy==2
+  - mkl-service
+  - plotly
+  - pymc3
+  - boto3
+  - emcee
+  - starry
+  - ginga
+  - bokeh
+  - pyfftw
+  - photutils
+  - pysynphot
+  - future
+  - pyyaml
+  - pandas
+  - galsim
+  - pip:
+    - ipywidgets==7.0.0
+    - ipyevents
+    - exoplanet
+    - astrocut
+    - eleanor
+    - tele-scope
+    - celerite
+    - corner
+    - bls.py
+    - git+https://github.com/astropy/astroquery.git
+    - pandeia.engine==1.2.2
+    - git+git://github.com/spacetelescope/webbpsf.git
+    - git+git://github.com/spacetelescope/poppy.git
