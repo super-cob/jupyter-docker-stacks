@@ -44,15 +44,13 @@ RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     # We need the pre-release version of astroquery in order to make requests of
     # JWST A-string MAST.
     pip install --upgrade --pre astroquery &&\
-    # The aws-cli is used by CRDS to cache files
-    pip install --upgrade awscli &&\
     # The example notebook would like to do some plotting
     pip install matplotlib &&\
     # Needed because one of the 0.13.7 dependencies accidentally imported it in non-test code
     # (this issue has been fixed, we're only seeing it because we pinned an old version)
     pip install pytest &&\
     # S3-enabled release of CRDS:
-    pip install --upgrade git+https://github.com/spacetelescope/crds.git@7.4.1#egg=crds[aws] &&\
+    pip install --upgrade git+https://github.com/spacetelescope/crds.git@7.4.1.2#egg=crds[aws] &&\
     pip install ipykernel
 #####################################################################
 
@@ -69,6 +67,7 @@ COPY miricle-linux-py35.0.txt /opt
 RUN . $CONDA_DIR/etc/profile.d/conda.sh &&\
     conda create --yes --name mirisim --file /opt/miricle-linux-py35.0.txt &&\
     conda activate mirisim &&\
+    pip install --upgrade git+https://github.com/spacetelescope/crds.git@7.4.1.2#egg=crds[aws] &&\
     pip install ipykernel
 #####################################################################
 
