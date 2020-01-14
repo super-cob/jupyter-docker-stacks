@@ -41,9 +41,17 @@ COPY kernel_runner.py /opt
 # Install hstdp conda environment
 RUN conda create -n hstdp --file http://ssb.stsci.edu/releases/hstdp/2019.5/latest-linux
 
+# Customize hstdp environment
+RUN . $CONDA_DIR/etc/profile.d/conda.sh && \
+    conda activate hstdp && \
+    # S3-enabled release of CRDS:
+    pip install --upgrade git+https://github.com/spacetelescope/crds.git@7.4.1.4#egg=crds[aws] && \
+    # Needed to use this environment as a kernel
+    pip install ipykernel
+
 # Create hstdp notebook kernel
 RUN mkdir -p /usr/local/share/jupyter/kernels/hstdp
-COPY hstdp-kernel.json /usr/local/share/jupyter/kernels/hstdp
+COPY hstdp-kernel.json /usr/local/share/jupyter/kernels/hstdp/kernel.json
 COPY hstdp-logo-32x32.png /usr/local/share/jupyter/kernels/hstdp/logo-32x32.png
 COPY hstdp-logo-64x64.png /usr/local/share/jupyter/kernels/hstdp/logo-64x64.png
 
