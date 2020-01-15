@@ -13,12 +13,12 @@ ENV MKL_THREADING_LAYER="GNU"
 
 # CRDS environment variables
 ENV CRDS_PATH=/home/jovyan/crds_cache
-ENV iref=${CRDS_PATH}/references/hst/
-ENV jref=${CRDS_PATH}/references/hst/
-ENV oref=${CRDS_PATH}/references/hst/
-ENV lref=${CRDS_PATH}/references/hst/
-ENV nref=${CRDS_PATH}/references/hst/
-ENV uref=${CRDS_PATH}/references/hst/
+ENV iref=${CRDS_PATH}/references/hst/iref/
+ENV jref=${CRDS_PATH}/references/hst/jref/
+ENV oref=${CRDS_PATH}/references/hst/oref/
+ENV lref=${CRDS_PATH}/references/hst/lref/
+ENV nref=${CRDS_PATH}/references/hst/nref/
+ENV uref=${CRDS_PATH}/references/hst/uref/
 ENV uref_linux=$uref
 ENV CRDS_SERVER_URL=https://hst-serverless.stsci.edu
 ENV CRDS_S3_ENABLED=1
