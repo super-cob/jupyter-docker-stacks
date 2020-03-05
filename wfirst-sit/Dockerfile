@@ -25,6 +25,9 @@ ENV CRDS_DOWNLOAD_PLUGIN='crds_s3_get ${SOURCE_URL} ${OUTPUT_PATH} ${FILE_SIZE} 
 
 USER root
 
+#RUN mkdir /home/jovyan/crds_cache && \
+#    chown jovyan /home/jovyan/crds_cache
+
 RUN apt-get update --yes > /dev/null && \
 	apt-get install --yes curl rsync dbus-x11 firefox xfce4 xfce4-panel xfce4-session xfce4-settings xorg xubuntu-icon-theme automake libtool fftw3-dev libatlas-base-dev vim emacs gfortran
 
