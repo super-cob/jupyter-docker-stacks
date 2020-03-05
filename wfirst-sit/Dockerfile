@@ -26,7 +26,7 @@ ENV CRDS_DOWNLOAD_PLUGIN='crds_s3_get ${SOURCE_URL} ${OUTPUT_PATH} ${FILE_SIZE} 
 USER root
 
 RUN apt-get update --yes > /dev/null && \
-    apt-get install --yes curl rsync dbus-x11 firefox xfce4 xfce4-panel xfce4-session xfce4-settings xorg xubuntu-icon-theme automake libtool fftw3-dev libatlas-base-dev
+	apt-get install --yes curl rsync dbus-x11 firefox xfce4 xfce4-panel xfce4-session xfce4-settings xorg xubuntu-icon-theme automake libtool fftw3-dev libatlas-base-dev vim emacs gfortran
 
 RUN mkdir /opt/bin && \
     wget https://github.com/astromatic/sextractor/archive/2.25.0.tar.gz && \
@@ -51,7 +51,11 @@ conda env update --name base --file /opt/base-environment.yml
 COPY wfirst-sit-environment.yml /opt
 
 RUN . $CONDA_DIR/etc/profile.d/conda.sh && \
-    conda env create -f /opt/wfirst-sit-environment.yml
+    conda env create -f /opt/wfirst-sit-environment.yml && \
+    conda activate wfirst-sit && \
+    pip uninstall jwst -y && \
+    pip install git+https://github.com/spacetelescope/jwst.git@0.15.0 && \
+    conda deactivate
 
 RUN mkdir -p $CONDA_DIR/envs/wfirst-sit/etc/conda/activate.d
 COPY wfirst-sit-activate.sh $CONDA_DIR/envs/wfirst-sit/etc/conda/activate.d/activate.sh
@@ -65,7 +69,7 @@ COPY logo-64x64.png /usr/local/share/jupyter/kernels/wfirst-sit
 
 # Install cvt environment
 #####################################################################
-COPY cvt-environment.yml /opt
+#COPY cvt-environment.yml /opt
 
 RUN . $CONDA_DIR/etc/profile.d/conda.sh && \
     conda create --name cvt && \
