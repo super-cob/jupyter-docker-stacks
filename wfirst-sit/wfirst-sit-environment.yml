@@ -55,5 +55,5 @@ dependencies:
   - pandeia-engine==1.5
 # Change this back to a commit on master once
 # https://github.com/spacetelescope/pandeia-coronagraphy/pull/17 is merged:
-  - git+https://github.com/eslavich/pandeia-coronagraphy.git@eslavich-add-version-to-package-data
+#  - git+https://github.com/spacetelescope/jwst.git==0.15.0
 #  - git+https://github.com/spacetelescope/pandeia-coronagraphy.git@#######
