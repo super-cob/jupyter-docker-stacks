@@ -70,9 +70,7 @@ RUN pip install celerite
 RUN pip install corner
 RUN pip install bls.py
 RUN pip install k2flix
-
-# Bleeding edge lightkurve
-RUN pip install git+https://github.com/KeplerGO/lightkurve.git --upgrade
+RUN pip install lightkurve[all]
 
 # JupyterLab extensions
 RUN jupyter nbextension enable --py --sys-prefix ipyevents
