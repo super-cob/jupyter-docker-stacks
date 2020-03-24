@@ -1,4 +1,6 @@
-WFIRST Conda environment:
+## WFIRST Software
+
+**Python environment**:
 
 | Package | Version |
 |--|--|
@@ -292,3 +294,10 @@ WFIRST Conda environment:
 | zipp | 2/2/2000 |
 | zlib | 1/2/2011 |
 | zstd | 1/3/2007
+
+**Additional software**:
+
+| Software | Version |
+|--|--|
+| Source Extractor | 2.25.0 |
+| JWST Coronagraph Visibility Tool | 0.4.2 |
