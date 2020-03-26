@@ -12,8 +12,6 @@
 | asteval | 0.9.13 |
 | astroimtools | 0.2 |
 | astropy | 4 |
-| astropy | 3/2/2002 |
-| astroquery | 0.4.dev5765 |
 | astroquery | 0.3.10 |
 | astroscrappy | 1.0.5 |
 | atomicwrites | 1/3/2000 |
@@ -78,7 +76,6 @@
 | gst-plugins-base | 1/14/2000 |
 | gstreamer | 1/14/2000 |
 | gwcs | 0.12.0 |
-| gwcs | 0.11.0 |
 | h5py | 2/10/2000 |
 | hdf5 | 1/10/2004 |
 | healpy | 1/13/2000 |
@@ -152,7 +149,6 @@
 | nictools | 1/1/2005 |
 | nose | 1/3/2007 |
 | notebook | 6.0.3 |
-| numpy | 1/18/2001 |
 | numpy | 1/14/2006 |
 | numpy-base | 1/14/2006 |
 | numpydoc | 0.9.2 |
