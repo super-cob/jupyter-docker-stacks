@@ -16,3 +16,40 @@ Note that the VERSION file in source control is always the one after the one mos
 
 ## Adding a new stack
 Simply create a new folder, include (at a minimum) Dockerfile and VERSION (set to `[stack-name].0.1.0.devel`).
+
+## WFIRST SIT science platform
+This science platform (based on [JupyterLab](https://jupyterlab.readthedocs.io/en/stable/)) is for use by Science Investigation Team (SIT) members to perform research and develop reprocessing methods.
+
+#### Overview
+The platform provides persistent user environments, where files (images, notebooks, etc.) can be stored and accessed during later sessions.  Users can access iPython consoles and terminals, create text files, display images, and create Jupyter notebooks.  A virtual desktop provides access to graphical tools such as DS9 and the Coronagraphic Visibility tool.
+
+Example Jupyter notebooks are provided as a starting point, and users can create new ones for their own work.
+
+#### Included software
+The software and tools available on the platform include Python packages used for processing and analyzing data products, Source Extractor, DS9, and others.  A full list of include software can be found [here](https://github.com/spacetelescope/jupyter-docker-stacks/blob/wfirst-sit/wfirst-sit/WFIRST_SOFTWARE.md).
+
+Notable Python packages:
+- asdf
+- astropy
+- astroquery
+- boto3
+- cfitsio
+- cubeviz
+- dask
+- drizzlepac
+- fitsblender
+- glue
+- matplotlib
+- numpy
+- pandas
+- pandeia.engine
+- pysiaf
+- scikit-image
+- scikit-image
+- scipy
+- spectral-cube
+- stsci
+- synphot
+
+#### Authentication
+Authentication is done through the MAST portal.  All SIT members will need to create an account to access the science platform.  Navigate to https://wfirst-sit.science.stsci.edu in your browser, and you will be redirected to the authentication page.
